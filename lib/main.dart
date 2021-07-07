@@ -51,10 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
     OneSignal.shared.setRequiresUserPrivacyConsent(_requireConsent);
     OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult result) {
       print("OPENED NOTIFICATION");
-      print(result.notification.jsonRepresentation().replaceAll("\\n", "\n"));
-      String url = result.notification.additionalData['u'];
+      print(result.notification.additionalData['custom_url']);
+      String url = result.notification.additionalData['custom_url'];
       navigatorKey.currentState.pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ViewPageTest(getURL: url,)), (Route<dynamic> route) => false);
-
     });
     OneSignal.shared.setSubscriptionObserver((OSSubscriptionStateChanges changes) {
       print("SUBSCRIPTION STATE CHANGED: ${changes.jsonRepresentation()}");

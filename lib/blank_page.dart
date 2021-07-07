@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nowonbokji/main.dart';
+import 'package:nowonbokji/view_page_test.dart';
 
 class BlankPage extends StatefulWidget {
   @override
@@ -6,6 +8,9 @@ class BlankPage extends StatefulWidget {
 }
 
 class _BlankPageState extends State<BlankPage> {
+
+  String url = 'https://nowonsenior.or.kr/';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,8 +19,13 @@ class _BlankPageState extends State<BlankPage> {
         centerTitle: true,
         title: Text('Blank!'),
       ),
-      body: Center(
-        child: Text('Blank'),
+      body: InkWell(
+        onTap: () {
+          navigatorKey.currentState.pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ViewPageTest(getURL: url,)), (Route<dynamic> route) => false);
+        },
+        child: Center(
+          child: Text('Blank'),
+        ),
       ),
     );
   }

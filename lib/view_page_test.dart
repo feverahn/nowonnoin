@@ -58,7 +58,6 @@ class _ViewPageState extends State<ViewPageTest> {
           return SafeArea(
             child: InAppWebView(
               initialUrl: widget.getURL,
-              initialHeaders: {},
               initialOptions: InAppWebViewGroupOptions(
                 crossPlatform: InAppWebViewOptions(
                   debuggingEnabled: true,
@@ -69,7 +68,6 @@ class _ViewPageState extends State<ViewPageTest> {
               onWebViewCreated: (InAppWebViewController controller) async {
                 webView = controller;
               },
-
             ),
           );
         }
