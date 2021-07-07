@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:nowonbokji/view_page.dart';
+import 'package:nowonbokji/view_page_test.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
+
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '시립노원노인복지관',
-      theme: ThemeData(
-
-        primarySwatch: Colors.amber,
-      ),
+      theme: ThemeData(primarySwatch: Colors.amber),
       home: MyHomePage(),
     );
   }
@@ -31,7 +30,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static final String oneSignalAppId ="e579a66a-9ba5-44ed-b317-13dc1609da4a";
-  String _debugLabelString = "";
   bool _requireConsent = false;
 
   @override
@@ -43,32 +41,23 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ViewPage(
-
-      ),
+      home: ViewPage(),
+      navigatorKey: navigatorKey,
     );
   }
 
   Future<void> initPlatformState() async {
     OneSignal.shared.setAppId(oneSignalAppId);
-    if (!mounted) return;
-
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-
     OneSignal.shared.setRequiresUserPrivacyConsent(_requireConsent);
-
-    OneSignal.shared
-        .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+    OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult result) {
       print("OPENED NOTIFICATION");
       print(result.notification.jsonRepresentation().replaceAll("\\n", "\n"));
-      this.setState(() {
-        _debugLabelString =
-        "Opened notification: \n${result.notification.jsonRepresentation().replaceAll("\\n", "\n")}";
-      });
-    });
+      String url = result.notification.additionalData['u'];
+      navigatorKey.currentState.pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ViewPageTest(getURL: url,)), (Route<dynamic> route) => false);
 
-    OneSignal.shared
-        .setSubscriptionObserver((OSSubscriptionStateChanges changes) {
+    });
+    OneSignal.shared.setSubscriptionObserver((OSSubscriptionStateChanges changes) {
       print("SUBSCRIPTION STATE CHANGED: ${changes.jsonRepresentation()}");
     });
 
@@ -76,14 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
       print("PERMISSION STATE CHANGED: ${changes.jsonRepresentation()}");
     });
 
-    OneSignal.shared.setEmailSubscriptionObserver(
-            (OSEmailSubscriptionStateChanges changes) {
-          print("EMAIL SUBSCRIPTION STATE CHANGED ${changes.jsonRepresentation()}");
-        });
-
-
+    OneSignal.shared.setEmailSubscriptionObserver((OSEmailSubscriptionStateChanges changes) {
+        print("EMAIL SUBSCRIPTION STATE CHANGED ${changes.jsonRepresentation()}");
+      });
 
     OneSignal.shared.promptUserForPushNotificationPermission(fallbackToSettings: true);
-
   }
 }
