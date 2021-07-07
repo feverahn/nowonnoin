@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nowonbokji/view_page.dart';
+import 'package:nowonbokji/blank_page.dart';
 import 'package:nowonbokji/view_page_test.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
@@ -41,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ViewPage(),
+      home: BlankPage(),
       navigatorKey: navigatorKey,
     );
   }

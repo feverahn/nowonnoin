@@ -71,7 +71,7 @@ class _ViewPageState extends State<ViewPage> {
                 crossPlatform: InAppWebViewOptions(
                   debuggingEnabled: true,
                   useShouldOverrideUrlLoading: true,
-                  javaScriptCanOpenWindowsAutomatically: true,
+                  javaScriptCanOpenWindowsAutomatically: false,
                 ),
               ),
 
